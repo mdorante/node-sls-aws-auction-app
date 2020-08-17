@@ -22,5 +22,7 @@ You will need:
   - `sls deploy -v`
 
 # Teardown
+
 When you are down checking the app out, you can remove all AWS resources in just one step:
+
 - `sls remove -v`
