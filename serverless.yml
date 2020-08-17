@@ -13,6 +13,14 @@ provider:
   region: us-east-1
   tags:
     Owner: serverless_node_aws_user
+  environment:
+    AUCTIONS_TABLE_NAME: ${self:custom.AuctionsTable.name}
+  iamRoleStatements:
+    - ${file(iam/LambdaRoles.yml):AuctionsTablePutItem}
+
+resources:
+  Resources: # CloudFormation syntax
+    AuctionsTable: ${file(resources/DynamoDB.yml):AuctionsTable}
 
 functions:
   createAuction:
@@ -21,3 +29,8 @@ functions:
       - http:
           method: POST
           path: /auction
+
+custom:
+  AuctionsTable:
+    name: !Ref AuctionsTable # CloudFormation syntax, returns Table Name
+    arn: !GetAtt AuctionsTable.Arn # CloudFormation syntax, returns Table ARN
