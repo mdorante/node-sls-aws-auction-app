@@ -30,6 +30,13 @@ functions:
           method: POST
           path: /auction
 
+  getAuctions:
+    handler: src/handlers/getAuctions.handler
+    events:
+      - http:
+          method: GET
+          path: /get-auctions
+
 custom:
   AuctionsTable:
     name: !Ref AuctionsTable # CloudFormation syntax, returns Table Name
