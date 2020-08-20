@@ -12,12 +12,15 @@ async function createAuction(event, context) {
 
   const { title } = event.body;
   const now = new Date();
+  const endDate = new Date();
+  endDate.setHours(now.getHours() + 1); // to set the end of the auction to 1 hour after creation
 
   const auction = {
     id: uuid(), // generates a random id for the auction
     title,
     status: "OPEN",
     createdAt: now.toISOString(),
+    endingAt: endDate.toISOString(),
     highestBid: {
       amount: 0,
     },
