@@ -6,9 +6,22 @@ AuctionsTable: # CloudFormation resource name
     AttributeDefinitions:
       - AttributeName: id
         AttributeType: S #string
+      - AttributeName: status
+        AttributeType: S
+      - AttributeName: endingAt
+        AttributeType: S
     KeySchema:
       - AttributeName: id
         KeyType: HASH # Primary Key
+    GlobalSecondaryIndexes:
+      - IndexName: statusAndEndDate
+        KeySchema:
+          - AttributeName: status
+            KeyType: HASH
+          - AttributeName: endingAt
+            KeyType: RANGE
+        Projection:
+          ProjectionType: ALL
     Tags:
       - Key: Owner
         Value: serverless_node_aws_user
