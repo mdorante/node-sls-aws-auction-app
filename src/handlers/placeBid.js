@@ -15,6 +15,10 @@ async function placeBid(event, context) {
 
   const auction = await dynamodbQuery(id);
 
+  if (auction.status !== "OPEN") {
+    throw new createError.Forbidden("This auction is closed!");
+  }
+
   if (amount <= auction.highestBid.amount) {
     throw new createError.Forbidden(
       `You must place a bid higher than ${auction.highestBid.amount}`
