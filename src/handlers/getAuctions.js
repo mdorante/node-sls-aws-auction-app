@@ -1,4 +1,6 @@
 import AWS from "aws-sdk";
+import validator from "@middy/validator";
+import getAuctionsSchema from "../lib/schemas/getAuctionsSchema";
 import commonMiddleware from "../lib/commonMiddleware";
 import createError from "http-errors";
 
@@ -38,4 +40,6 @@ async function getAuctions(event, context) {
   };
 }
 
-export const handler = commonMiddleware(getAuctions);
+export const handler = commonMiddleware(getAuctions).use(
+  validator({ inputSchema: getAuctionsSchema, useDefaults: true })
+);
