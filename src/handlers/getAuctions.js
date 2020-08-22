@@ -9,15 +9,23 @@ async function getAuctions(event, context) {
   Gets auctions from DynamoDB (scans whole table)
    */
 
+  const { status } = event.queryStringParameters; // gets the value of status sent in the url query string parameter
   let auctions;
 
-  try {
-    const result = await dynamo
-      .scan({
-        TableName: process.env.AUCTIONS_TABLE_NAME,
-      })
-      .promise();
+  const params = {
+    TableName: process.env.AUCTIONS_TABLE_NAME,
+    IndexName: "statusAndEndDate",
+    KeyConditionExpression: "#status = :status",
+    ExpressionAttributeValues: {
+      ":status": status,
+    },
+    ExpressionAttributeNames: {
+      "#status": "status",
+    },
+  };
 
+  try {
+    const result = await dynamo.query(params).promise();
     auctions = result.Items;
   } catch (error) {
     console.error(error);
