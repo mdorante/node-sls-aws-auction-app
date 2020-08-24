@@ -15,8 +15,10 @@ provider:
     Owner: serverless_node_aws_user
   environment:
     AUCTIONS_TABLE_NAME: ${self:custom.AuctionsTable.name}
+    MAIL_QUEUE_URL: ${self:custom.MailQueue.url}
   iamRoleStatements:
     - ${file(iam/LambdaRoles.yml):AuctionsTablePutItem}
+    - ${file(iam/SQS-Role.yml):SendMessage}
 
 resources:
   Resources: # CloudFormation syntax
@@ -57,11 +59,14 @@ functions:
 
   processAuctions:
     handler: src/handlers/processAuctions.handler
-#    events:
-#      - schedule: rate(1 minute)
+    events:
+      - schedule: rate(1 minute)
 
 custom:
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:serverless-auth0-authorizer-${self:provider.stage}-auth
   AuctionsTable:
     name: !Ref AuctionsTable # CloudFormation syntax, returns Table Name
     arn: !GetAtt AuctionsTable.Arn # CloudFormation syntax, returns Table ARN
+  MailQueue:
+    arn: ${cf:notification-service-${self:provider.stage}.MailQueueArn}
+    url: ${cf:notification-service-${self:provider.stage}.MailQueueUrl}
