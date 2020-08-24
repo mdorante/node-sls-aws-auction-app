@@ -1,4 +1,4 @@
-AuctionsTablePutItem:
+AuctionsTableActions:
   Effect: Allow
   Action:
     - dynamodb:PutItem
