@@ -1,0 +1,5 @@
+AuctionsBucketActions:
+  Effect: Allow
+  Action:
+    - s3:PutObject
+  Resource: ${self:custom.AuctionsBucket.arn}

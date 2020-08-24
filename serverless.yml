@@ -16,13 +16,17 @@ provider:
   environment:
     AUCTIONS_TABLE_NAME: ${self:custom.AuctionsTable.name}
     MAIL_QUEUE_URL: ${self:custom.MailQueue.url}
+    AUCTIONS_BUCKET_NAME: ${self:custom.AuctionsBucket.name}
   iamRoleStatements:
-    - ${file(iam/LambdaRoles.yml):AuctionsTablePutItem}
-    - ${file(iam/SQS-Role.yml):SendMessage}
+    - ${file(iam/DynamoDB-Role.yml):AuctionsTableActions}
+    - ${file(iam/SQS-Role.yml):MailQueueActions}
+    - ${file(iam/S3-Role.yml):AuctionsBucketActions}
 
 resources:
   Resources: # CloudFormation syntax
     AuctionsTable: ${file(resources/DynamoDB.yml):AuctionsTable}
+    AuctionsBucket: ${file(resources/S3.yml):AuctionsBucket}
+    AuctionsBucketPolicy: ${file(resources/S3.yml):AuctionsBucketPolicy}
 
 functions:
   createAuction:
@@ -57,6 +61,14 @@ functions:
           path: /auction/{id}/bid
           authorizer: ${self:custom.authorizer}
 
+  uploadPicture:
+    handler: src/handlers/uploadPicture.handler
+    events:
+      - http:
+          method: PATCH
+          path: /auction/{id}/picture
+          authorizer: ${self:custom.authorizer}
+
   processAuctions:
     handler: src/handlers/processAuctions.handler
     events:
@@ -70,3 +82,6 @@ custom:
   MailQueue:
     arn: ${cf:notification-service-${self:provider.stage}.MailQueueArn}
     url: ${cf:notification-service-${self:provider.stage}.MailQueueUrl}
+  AuctionsBucket:
+    name: auctions-bucket-${file(src/lib/s3RandomId.js):s3Id}-${self:provider.stage}
+    arn: !GetAtt AuctionsBucket.Arn
