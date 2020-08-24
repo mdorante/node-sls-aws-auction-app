@@ -24,4 +24,4 @@ export async function uploadAuctionPicture(event) {
   };
 }
 
-export const handler = middy(uploadPicture).use(httpErrorHandler());
+export const handler = middy(uploadAuctionPicture).use(httpErrorHandler());
