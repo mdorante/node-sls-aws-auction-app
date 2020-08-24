@@ -21,27 +21,41 @@ export async function closeAuction(auction) {
 
   await dynamo.update(params).promise();
 
-  const notifySeller = sqs
-    .sendMessage({
-      QueueUrl: process.env.MAIL_QUEUE_URL,
-      MessageBody: JSON.stringify({
-        subject: "Your item has been sold!",
-        recipient: seller,
-        body: `Congratulations! Your item ${title} has been sold for $${amount}`,
-      }),
-    })
-    .promise();
+  if (amount === 0) {
+    await sqs
+      .sendMessage({
+        QueueUrl: process.env.MAIL_QUEUE_URL,
+        MessageBody: JSON.stringify({
+          subject: "Your auction closed with no bids.",
+          recipient: seller,
+          body: `Unfortunately, your item: ${title} has not been sold.\nBetter luck next time!`,
+        }),
+      })
+      .promise();
+    return;
+  } else {
+    const notifySeller = sqs
+      .sendMessage({
+        QueueUrl: process.env.MAIL_QUEUE_URL,
+        MessageBody: JSON.stringify({
+          subject: "Your item has been sold!",
+          recipient: seller,
+          body: `Congratulations!\nYour item: ${title} has been sold for $${amount}!`,
+        }),
+      })
+      .promise();
 
-  const notifyBidder = sqs
-    .sendMessage({
-      QueueUrl: process.env.MAIL_QUEUE_URL,
-      MessageBody: JSON.stringify({
-        subject: "You won an auction!",
-        recipient: bidder,
-        body: `Congratulations! You bought: ${title} for ${amount}`,
-      }),
-    })
-    .promise();
+    const notifyBidder = sqs
+      .sendMessage({
+        QueueUrl: process.env.MAIL_QUEUE_URL,
+        MessageBody: JSON.stringify({
+          subject: "You won an auction!",
+          recipient: bidder,
+          body: `Congratulations!\nYou bought: ${title} for ${amount}!`,
+        }),
+      })
+      .promise();
 
-  return Promise.all([notifyBidder, notifySeller]);
+    return Promise.all([notifyBidder, notifySeller]);
+  }
 }
