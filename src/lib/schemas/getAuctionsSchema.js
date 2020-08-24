@@ -3,9 +3,11 @@ const schema = {
     queryStringParameters: {
       type: "object",
       properties: {
-        type: "string",
-        enum: ["OPEN", "CLOSED"],
-        default: "OPEN",
+        status: {
+          type: "string",
+          enum: ["OPEN", "CLOSED"],
+          default: "OPEN",
+        },
       },
     },
   },
