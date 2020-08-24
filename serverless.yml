@@ -61,7 +61,7 @@ functions:
           path: /auction/{id}/bid
           authorizer: ${self:custom.authorizer}
 
-  uploadPicture:
+  uploadAuctionPicture:
     handler: src/handlers/uploadPicture.handler
     events:
       - http:

@@ -4,7 +4,7 @@ import middy from "@middy/core";
 import { dynamodbQuery } from "./getAuctionById";
 import { uploadImageS3 } from "../lib/uploadImageS3";
 
-export async function uploadPicture(event) {
+export async function uploadAuctionPicture(event) {
   const { id } = event.pathParameters;
   const auction = await dynamodbQuery(id);
   const base64 = event.body.replace(/^data:image\/\w+;base64,/, "");
