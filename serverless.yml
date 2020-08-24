@@ -62,7 +62,7 @@ functions:
           authorizer: ${self:custom.authorizer}
 
   uploadAuctionPicture:
-    handler: src/handlers/uploadPicture.handler
+    handler: src/handlers/uploadAuctionPicture.handler
     events:
       - http:
           method: PATCH
