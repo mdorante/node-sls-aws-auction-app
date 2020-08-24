@@ -84,4 +84,3 @@ custom:
     url: ${cf:notification-service-${self:provider.stage}.MailQueueUrl}
   AuctionsBucket:
     name: auctions-bucket-${file(src/lib/s3RandomId.js):s3Id}-${self:provider.stage}
-    arn: !GetAtt AuctionsBucket.Arn
