@@ -3,7 +3,7 @@ const schema = {
     body: {
       type: "string",
       minLength: 1,
-      pattern: "[A-Za-z0-9+/=]\=$",
+      pattern: "[A-Za-z0-9+/=]=$",
     },
   },
   required: ["body"],
