@@ -1,8 +1,10 @@
 import createError from "http-errors";
 import httpErrorHandler from "@middy/http-error-handler";
 import middy from "@middy/core";
+import validator from "@middy/validator";
 import { dynamodbQuery } from "./getAuctionById";
 import { setPictureUrl } from "../lib/setPictureUrl";
+import uploadAuctionPictureSchema from "../lib/schemas/uploadAuctionPictureSchema";
 import { uploadImageS3 } from "../lib/uploadImageS3";
 
 export async function uploadAuctionPicture(event) {
@@ -32,4 +34,6 @@ export async function uploadAuctionPicture(event) {
   };
 }
 
-export const handler = middy(uploadAuctionPicture).use(httpErrorHandler());
+export const handler = middy(uploadAuctionPicture)
+  .use(httpErrorHandler())
+  .use(validator({ inputSchema: uploadAuctionPictureSchema }));
