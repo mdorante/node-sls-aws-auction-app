@@ -1,4 +1,4 @@
-# node-sls-auctions-app
+# node-sls-aws-auctions-app
 
 Auctions app in Node.js using Serverless Framework on AWS.
 
