@@ -1,8 +1,14 @@
-# node-sls-auction-service
+# node-sls-auctions-app-auction-service
 
-Auction app in Node.js using Serverless Framework on AWS.
+Auctions app in Node.js using Serverless Framework on AWS.
 
-You can try it out by going through the "Setup" section below.
+This is part of a microservice oriented project, this is the **main** service (the actual auctions app).
+
+This service depends on the rest, so in order to recreate the app:
+
+1. Deploy [Authorization Service](https://github.com/mdorante/serverless-auth0-authorizer) (handles Auth0 authorization)
+2. Deploy [Notifications Service](https://github.com/mdorante/node-sls-aws-notification-service) (handles email notifications)
+3. Deploy this service (instructions below)
 
 You will need:
 
