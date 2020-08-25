@@ -8,6 +8,12 @@ import { uploadImageS3 } from "../lib/uploadImageS3";
 export async function uploadAuctionPicture(event) {
   const { id } = event.pathParameters;
   const auction = await dynamodbQuery(id);
+  const { email } = event.requestContext.authorizer;
+
+  if (email !== auction.seller) {
+    throw new createError.Forbidden("You are not the seller of this auction.");
+  }
+
   const base64 = event.body.replace(/^data:image\/\w+;base64,/, "");
   const buffer = Buffer.from(base64, "base64");
 
