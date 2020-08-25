@@ -1,8 +1,8 @@
-import AWS from "aws-sdk";
+import { DynamoDB } from "aws-sdk";
 import commonMiddleware from "../lib/commonMiddleware";
 import createError from "http-errors";
 
-const dynamo = new AWS.DynamoDB.DocumentClient();
+const dynamo = new DynamoDB.DocumentClient();
 
 export async function dynamodbQuery(id) {
   let auction;
@@ -28,7 +28,7 @@ export async function dynamodbQuery(id) {
   return auction;
 }
 
-async function getAuctionById(event, context) {
+async function getAuctionById(event) {
   /*
   Gets auction from DynamoDB (queries by id)
    */

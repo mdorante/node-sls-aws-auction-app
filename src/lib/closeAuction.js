@@ -1,9 +1,9 @@
-import AWS from "aws-sdk";
+import { DynamoDB, SQS } from "aws-sdk";
 
-const dynamo = new AWS.DynamoDB.DocumentClient();
+const dynamo = new DynamoDB.DocumentClient();
 
 export async function closeAuction(auction) {
-  const sqs = new AWS.SQS();
+  const sqs = new SQS();
   const { title, seller, highestBid } = auction;
   const { amount, bidder } = highestBid;
 
