@@ -1,4 +1,4 @@
-SendMessage:
+MailQueueActions:
   Effect: Allow
   Action:
     - sqs:SendMessage
