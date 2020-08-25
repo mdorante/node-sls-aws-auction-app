@@ -1,28 +1,43 @@
-# node_sls_aws_auction_app
+# node-sls-auction-service
 
 Auction app in Node.js using Serverless Framework on AWS.
+
 You can try it out by going through the "Setup" section below.
 
 You will need:
 
 - An AWS account
 - Node v12.x
-- Serverless SDK
 
 ## Setup
 
-- Clone this repo
+### 1. Generate a new Serverless project or clone this repo:
 
-  - `git clone git@github.com:mdorante/node_sls_aws_auction_app.git`
+```
+sls create --name auction-service --template-url https://github.com/mdorante/node-sls-aws-auction-service
+```
 
-- Navigate to the new repo directory and install npm packages
-  - `cd node_sls_aws_auction_app`
-  - `npm install`
-- Deploy the serverless stack
-  - `sls deploy -v`
+```
+git clone git@github.com:mdorante/node-sls-aws-auction-service.git
+```
 
-# Teardown
+### 2. Install node dependencies
+
+```
+cd auction-service
+npm install
+```
+
+### 3. Deploy the serverless stack
+
+```
+sls deploy -v
+```
+
+### 4. Teardown
 
 When you are down checking the app out, you can remove all AWS resources in just one step:
 
-- `sls remove -v`
+```
+sls remove -v
+```
