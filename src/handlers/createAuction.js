@@ -1,13 +1,13 @@
-import { v4 as uuid } from "uuid";
-import AWS from "aws-sdk";
+import { DynamoDB } from "aws-sdk";
 import validator from "@middy/validator";
-import createAuctionSchema from "../lib/schemas/createAuctionSchema";
+import { v4 as uuid } from "uuid";
 import commonMiddleware from "../lib/commonMiddleware";
+import createAuctionSchema from "../lib/schemas/createAuctionSchema";
 import createError from "http-errors";
 
-const dynamo = new AWS.DynamoDB.DocumentClient();
+const dynamo = new DynamoDB.DocumentClient();
 
-async function createAuction(event, context) {
+async function createAuction(event) {
   /*
   Creates an auction and stores it in DynamoDB
    */

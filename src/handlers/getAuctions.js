@@ -1,12 +1,12 @@
-import AWS from "aws-sdk";
+import { DynamoDB } from "aws-sdk";
 import validator from "@middy/validator";
 import getAuctionsSchema from "../lib/schemas/getAuctionsSchema";
 import commonMiddleware from "../lib/commonMiddleware";
 import createError from "http-errors";
 
-const dynamo = new AWS.DynamoDB.DocumentClient();
+const dynamo = new DynamoDB.DocumentClient();
 
-async function getAuctions(event, context) {
+async function getAuctions(event) {
   /*
   Gets auctions from DynamoDB (scans whole table)
    */

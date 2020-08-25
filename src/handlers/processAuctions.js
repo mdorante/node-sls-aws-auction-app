@@ -1,8 +1,8 @@
-import { getEndedAuctions } from "../lib/getEndedAuctions";
-import { closeAuction } from "../lib/closeAuction";
 import createError from "http-errors";
+import { closeAuction } from "../lib/closeAuction";
+import { getEndedAuctions } from "../lib/getEndedAuctions";
 
-async function processAuctions(event, context) {
+async function processAuctions() {
   try {
     const auctionsToClose = await getEndedAuctions();
     const closePromises = auctionsToClose.map((auction) =>
