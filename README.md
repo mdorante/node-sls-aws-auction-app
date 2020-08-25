@@ -34,7 +34,7 @@ npm install
 sls deploy -v
 ```
 
-### 4. Teardown
+## Teardown
 
 When you are down checking the app out, you can remove all AWS resources in just one step:
 
