@@ -20,7 +20,7 @@ You will need:
 ### 1. Generate a new Serverless project or clone this repo:
 
 ```
-sls create --name auction-service --template-url https://github.com/mdorante/node-sls-aws-auction-service
+sls create --name auction-service --template-url https://github.com/mdorante/node-sls-aws-auctions-app
 ```
 
 ```
